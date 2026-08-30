@@ -1,3 +1,5 @@
+import "./PostList.css";
+
 function PostList({ data }) {
   return (
     <div className="postlist">

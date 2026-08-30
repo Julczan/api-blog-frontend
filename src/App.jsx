@@ -5,7 +5,8 @@ function App() {
   const domain = "http://localhost:3000";
   return (
     <>
-      <FetchPosts domain={domain} />
+      {/* <FetchPosts domain={domain} /> */}
+      <h1>Test</h1>
     </>
   );
 }

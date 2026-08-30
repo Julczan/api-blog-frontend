@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { getRequestWithNativeFetch } from "./getRequestWithFetch";
-import PostList from "./PostList/PostList";
+import Post from "./Post/Post";
 
-const FetchPosts = ({ domain }) => {
+const FetchSinglePost = ({ domain, postId }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchDataForPosts = async () => {
-      const route = "/posts";
+    const fetchDataForSinglePost = async () => {
+      const route = `/posts/${postId}`;
       try {
         const postsData = await getRequestWithNativeFetch(domain + route);
 
@@ -23,16 +23,16 @@ const FetchPosts = ({ domain }) => {
       }
     };
 
-    fetchDataForPosts();
-  }, [domain]);
+    fetchDataForSinglePost();
+  }, [domain, postId]);
 
   return (
     <div>
-      {loading && <div>Loading posts...</div>}
+      {loading && <div>Loading post...</div>}
       {error && <div>{error}</div>}
-      {data && <PostList data={data} />}
+      {data && <Post data={data} />}
     </div>
   );
 };
 
-export default FetchPosts;
+export default FetchSinglePost;
