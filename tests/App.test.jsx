@@ -33,10 +33,12 @@ describe("App", () => {
     const router = createMemoryRouter(routes);
     render(<RouterProvider router={router} />);
 
-    const postTitle = await screen.findByText("Its the first post");
+    const firstPost = await screen.findByText("Its the first post");
+    const secondPost = await screen.findByText("Its the second post");
 
     screen.debug();
 
-    expect(postTitle).toBeInTheDocument();
+    expect(firstPost).toBeInTheDocument();
+    expect(secondPost).toBeInTheDocument();
   });
 });
