@@ -1,11 +1,26 @@
-function Post({ data }) {
+import { useParams } from "react-router";
+import useSinglePostData from "../../api/useSiglePostData";
+
+function Post({ domain }) {
+  const { postId } = useParams();
+
+  const route = `/posts/${postId}`;
+
+  const { postData, error, loading } = useSinglePostData(domain + route);
+
   return (
-    <div className="post" key={data.id}>
-      <div className="post-title">{data.title}</div>
-      <div className="post-text">{data.text}</div>
-      <div className="post-created">{data.createdAt}</div>
-      <div className="post-updated">{data.updatedAt}</div>
-    </div>
+    <>
+      {loading && "Loading..."}
+      {error && <p>{error}</p>}
+      {postData && (
+        <div className="post" key={postData.id}>
+          <div className="post-title">{postData.title}</div>
+          <div className="post-text">{postData.text}</div>
+          <div className="post-created">{postData.createdAt}</div>
+          <div className="post-updated">{postData.updatedAt}</div>
+        </div>
+      )}
+    </>
   );
 }
 

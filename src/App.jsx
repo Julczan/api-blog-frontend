@@ -1,12 +1,10 @@
 import "./App.css";
-import FetchPosts from "./components/FetchPosts";
+import PostList from "./components/PostList/PostList";
 
-function App() {
-  const domain = "http://localhost:3000";
+function App({ domain }) {
   return (
     <>
-      {/* <FetchPosts domain={domain} /> */}
-      <h1>Test</h1>
+      <PostList domain={domain} />
     </>
   );
 }

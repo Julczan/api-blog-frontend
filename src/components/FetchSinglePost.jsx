@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { getRequestWithNativeFetch } from "./getRequestWithFetch";
 import Post from "./Post/Post";
+import { useParams } from "react-router";
 
-const FetchSinglePost = ({ domain, postId }) => {
+const FetchSinglePost = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { postId } = useParams();
+  const domain = "http://localhost:3000";
 
   useEffect(() => {
     const fetchDataForSinglePost = async () => {
