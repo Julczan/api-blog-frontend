@@ -7,14 +7,17 @@ const useData = (url) => {
 
   useEffect(() => {
     fetch(url)
-      .then((response) => {
+      .then(async (response) => {
         if (response.status >= 400) {
-          throw new Error("server error");
+          const errorData = await response.json();
+          throw new Error(errorData.message || "An error occurred");
         }
         return response.json();
       })
       .then((response) => setPostsData(response))
-      .catch((error) => setError(error.message))
+      .catch((error) => {
+        setError(error.message);
+      })
       .finally(() => setLoading(false));
   }, [url]);
 

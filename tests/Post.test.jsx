@@ -15,6 +15,7 @@ const postData = {
 
 const commentsData = [
   { id: 1, author: { username: "Julek" }, text: "comment" },
+  { id: 2, author: { username: "Test" }, text: "Second comment" },
 ];
 
 describe("Post page", () => {
@@ -32,10 +33,12 @@ describe("Post page", () => {
     const post = await screen.findByText("Its the first post");
     const firstComment = await screen.findByText("comment");
     const authorUsername = await screen.findByText("Julek");
+    const secondAuthor = await screen.findByText("Test");
 
     expect(post).toBeInTheDocument();
     expect(firstComment).toBeInTheDocument();
     expect(authorUsername).toBeInTheDocument();
+    expect(secondAuthor).toBeInTheDocument();
   });
 
   it("renders an error page when the post is not found", async () => {
@@ -49,7 +52,7 @@ describe("Post page", () => {
     });
     render(<RouterProvider router={router} />);
 
-    const error = await screen.findByText("Post is not found");
+    const error = await screen.findByText(/Post not found/i);
 
     screen.debug();
 
