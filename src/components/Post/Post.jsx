@@ -1,32 +1,27 @@
 import { useParams } from "react-router";
-import useSinglePostData from "../../api/useSiglePostData";
+import useData from "../../api/useData";
+import CommentList from "../CommentList/CommentList";
 
 function Post({ domain }) {
   const { postId } = useParams();
 
-  const route = `/posts/${postId}/comments`;
+  const route = `/posts/${postId}`;
 
-  const { postData, error, loading } = useSinglePostData(domain + route);
+  const { data, error, loading } = useData(domain + route);
 
   return (
     <>
       {loading && "Loading..."}
       {error && <p>{error}</p>}
-      {postData && (
+      {data && (
         <>
-          <div className="post" key={postData.id}>
-            <div className="post-title">{postData.title}</div>
-            <div className="post-text">{postData.text}</div>
-            <div className="post-created">{postData.createdAt}</div>
-            <div className="post-updated">{postData.updatedAt}</div>
+          <div className="post" key={data.id}>
+            <div className="post-title">{data.title}</div>
+            <div className="post-text">{data.text}</div>
+            <div className="post-created">{data.createdAt}</div>
+            <div className="post-updated">{data.updatedAt}</div>
           </div>
-          <div className="comments-container">
-            {postData.comments.map((comment) => (
-              <div className="comment" key={comment.id}>
-                <div>{comment.text}</div>
-              </div>
-            ))}
-          </div>
+          <CommentList domain={domain} postId={postId} />
         </>
       )}
     </>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-const useSinglePostData = (url) => {
-  const [postData, setPostData] = useState(null);
+const useData = (url) => {
+  const [data, setPostsData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -13,12 +13,12 @@ const useSinglePostData = (url) => {
         }
         return response.json();
       })
-      .then((response) => setPostData(response))
+      .then((response) => setPostsData(response))
       .catch((error) => setError(error.message))
       .finally(() => setLoading(false));
   }, [url]);
 
-  return { postData, error, loading };
+  return { data, error, loading };
 };
 
-export default useSinglePostData;
+export default useData;

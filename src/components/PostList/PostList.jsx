@@ -1,18 +1,18 @@
-import usePostsData from "../../api/usePostsData";
+import useData from "../../api/useData";
 import "./PostList.css";
 
 function PostList({ domain }) {
   const route = "/posts";
 
-  const { postsData, error, loading } = usePostsData(domain + route);
+  const { data, error, loading } = useData(domain + route);
 
   return (
     <>
       {loading && "Loading..."}
       {error && <p>{error}</p>}
       <div className="postlist">
-        {postsData &&
-          postsData.map((post) => (
+        {data &&
+          data.map((post) => (
             <div className="post" key={post.id}>
               <div className="post-title">{post.title}</div>
               <div className="post-text">{post.text}</div>
