@@ -58,4 +58,28 @@ describe("Post page", () => {
 
     expect(error).toBeInTheDocument();
   });
+
+  it("renders 'no comments yet' message when there are no comments", async () => {
+    window.fetch = vi
+      .fn()
+      .mockResolvedValueOnce({ json: () => Promise.resolve(postData) })
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 404,
+        json: () => Promise.resolve({ message: "No comments yet" }),
+      });
+
+    const router = createMemoryRouter(routes, {
+      initialEntries: ["/posts/1"],
+    });
+    render(<RouterProvider router={router} />);
+
+    const post = await screen.findByText("Its the first post");
+    const error = await screen.findByText(/No comments yet/i);
+
+    screen.debug();
+
+    expect(post).toBeInTheDocument();
+    expect(error).toBeInTheDocument();
+  });
 });
