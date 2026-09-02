@@ -5,6 +5,10 @@ function CommentList({ domain, postId }) {
 
   const { data, error, loading } = useData(domain + route);
 
+  if (data && data.length === 0) {
+    return <p>There is no comments yet</p>;
+  }
+
   return (
     <>
       {loading && "Loading..."}

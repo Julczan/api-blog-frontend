@@ -1,4 +1,5 @@
 import App from "./App";
+import SignUpForm from "./components/Auth/SignUpForm";
 import ErrorPage from "./components/ErrorPage";
 import Post from "./components/Post/Post";
 
@@ -13,6 +14,10 @@ const routes = [
   {
     path: "/posts/:postId",
     element: <Post domain={domain} />,
+  },
+  {
+    path: "/signup",
+    element: <SignUpForm domain={domain} />,
   },
 ];
 

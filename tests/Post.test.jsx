@@ -54,20 +54,15 @@ describe("Post page", () => {
 
     const error = await screen.findByText(/Post not found/i);
 
-    screen.debug();
-
     expect(error).toBeInTheDocument();
   });
 
   it("renders 'no comments yet' message when there are no comments", async () => {
+    const noComments = [];
     window.fetch = vi
       .fn()
       .mockResolvedValueOnce({ json: () => Promise.resolve(postData) })
-      .mockResolvedValueOnce({
-        ok: false,
-        status: 404,
-        json: () => Promise.resolve({ message: "No comments yet" }),
-      });
+      .mockResolvedValueOnce({ json: () => Promise.resolve(noComments) });
 
     const router = createMemoryRouter(routes, {
       initialEntries: ["/posts/1"],
@@ -78,7 +73,6 @@ describe("Post page", () => {
     const error = await screen.findByText(/No comments yet/i);
 
     screen.debug();
-
     expect(post).toBeInTheDocument();
     expect(error).toBeInTheDocument();
   });
