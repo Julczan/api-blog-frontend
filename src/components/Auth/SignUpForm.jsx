@@ -8,31 +8,39 @@ function SignUpForm({ domain }) {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [response, setResponse] = useState(null);
-  const [errors, setError] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   const signUp = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     const route = "/user/signup";
 
-    const response = await fetch(domain + route, {
+    fetch(domain + route, {
       method: "POST",
       body: JSON.stringify({
-        username: username,
-        email: email,
-        password: password,
+        username,
+        email,
+        password,
         confirmPassword,
       }),
       headers: {
         "Content-type": "application/json",
       },
-    }).catch((error) => {
-      setError(error);
-      return;
-    });
-    const json = await response.json();
-    setResponse(json);
-    return json;
+    })
+      .then(async (response) => {
+        if (response.status >= 400) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "An error occurred");
+        }
+        return response.json();
+      })
+      .then((response) => setResponse(response))
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => setLoading(false));
   };
 
   // if(response){
@@ -46,7 +54,8 @@ function SignUpForm({ domain }) {
 
   return (
     <>
-      {errors && errors.map((error) => <p>{error}</p>)}
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
       {response && <p>{response}</p>}
       <form name="form" onSubmit={signUp}>
         <div className="form-group">

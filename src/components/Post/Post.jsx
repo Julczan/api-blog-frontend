@@ -9,9 +9,6 @@ function Post({ domain }) {
 
   const { data, error, loading } = useData(domain + route);
 
-  if (data && data.length === 0) {
-    return <p>No comments yet</p>;
-  }
 
   return (
     <>

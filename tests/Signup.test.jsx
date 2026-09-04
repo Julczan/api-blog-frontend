@@ -13,4 +13,15 @@ describe("Signup", () => {
     const form = screen.getByRole("form");
     expect(form).toBeInTheDocument();
   });
+
+  // it("displays errors when signup fails", async () => {
+  //   const router = createMemoryRouter(routes, {
+  //     initialEntries: ["/signup"],
+  //   });
+  //   render(<RouterProvider router={router} />);
+  //   const usernameError = await screen.findByText("Username already exists");
+  //   const passwordError = await screen.findByText("Passwords do not match!");
+  //   expect(usernameError).toBeInTheDocument();
+  //   expect(passwordError).toBeInTheDocument();
+  // });
 });
