@@ -20,5 +20,5 @@ describe("Login", () => {
     // const form = screen.getByRole("form");
     // expect(form).toBeInTheDocument();
   });
-  it("redirects to homepage on successfull login", () => {});
+  it("displays errors on failed login", () => {});
 });

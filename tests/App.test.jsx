@@ -16,7 +16,7 @@ describe("App", () => {
     expect(secondPost).toBeInTheDocument();
   });
 
-  it("renders a navbar where user can sign up od login", async () => {
+  it("renders a navbar where user can sign up or login", async () => {
     const router = createMemoryRouter(routes);
     render(<RouterProvider router={router} />);
 

@@ -14,6 +14,8 @@ function SignUpForm({ domain }) {
   const signUp = async (e) => {
     setLoading(true);
     e.preventDefault();
+    setError(null);
+    setResponse(null);
 
     const route = "/user/signup";
 
@@ -32,30 +34,25 @@ function SignUpForm({ domain }) {
       .then(async (response) => {
         if (response.status >= 400) {
           const errorData = await response.json();
-          throw new Error(errorData.message || "An error occurred");
+          return Promise.reject(errorData);
         }
         return response.json();
       })
       .then((response) => setResponse(response))
-      .catch((error) => {
-        setError(error.message);
+      .catch((errorData) => {
+        if (Array.isArray(errorData)) {
+          setError(errorData);
+        } else {
+          setError([{ msg: "A network error occurred." }]);
+        }
       })
       .finally(() => setLoading(false));
   };
 
-  // if(response){
-  // if(response === "User created!"){
-  //  return ()<p>User created successfully! Please login here:
-  //  <Link to=/login>Login</Link>
-  //  </p>
-  // }else{
-  // return <>{response}</>}
-  // }
-
   return (
     <>
       {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {error && error.map((err) => <p>{err.msg}</p>)}
       {response && <p>{response}</p>}
       <form name="form" onSubmit={signUp}>
         <div className="form-group">

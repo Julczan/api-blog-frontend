@@ -44,10 +44,22 @@ export const handlers = [
       { id: 2, author: { username: "Test" }, text: "Second comment" },
     ]);
   }),
-
-  http.post("signup", () => {
+  
+http.get("/posts/:postId/comments/:commentId", ({ params }) => {
+    if (params.postId !== "1") {
+      return HttpResponse.json({ message: "Post not found" }, { status: 404 });
+    }
+    if(params.commentId !== "1"){
+    return HttpResponse.json({ message: "Comment not found" }, { status: 404 });
+}
     return HttpResponse.json(
-      { messages: ["Passwords do not match!", "Username already exists"] },
+      { id: 1, author: { username: "Julek" }, text: "comment" },
+    );
+  }),
+
+  http.post("/user/signup", () => {
+    return HttpResponse.json(
+      [{ msg: "Passwords do not match!" }, { msg: "Username already exists!" }],
       { status: 400 },
     );
   }),
