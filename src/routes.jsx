@@ -1,5 +1,6 @@
 import App from "./App";
 import SignUpForm from "./components/Auth/SignUpForm";
+import LoginForm from "./components/Auth/LoginForm";
 import ErrorPage from "./components/ErrorPage";
 import Post from "./components/Post/Post";
 
@@ -18,6 +19,10 @@ const routes = [
   {
     path: "/signup",
     element: <SignUpForm domain={domain} />,
+  },
+  {
+    path: "/login",
+    element: <LoginForm domain={domain} />,
   },
 ];
 

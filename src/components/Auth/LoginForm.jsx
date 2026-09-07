@@ -26,13 +26,15 @@ function LoginForm({ domain }) {
       .then(async (response) => {
         if (response.status >= 400) {
           const errorData = await response.json();
-          throw new Error(errorData.message || "An error occurred");
+          return Promise.reject(errorData);
         }
         return response.json();
       })
       .then((response) => setResponse(response))
       .catch((error) => {
-        setError(error.message);
+        console.log(error);
+
+        setError(error.msg);
       });
   };
 
@@ -43,9 +45,10 @@ function LoginForm({ domain }) {
 
   return (
     <>
-      <form onSubmit={login}>
-        <div class="form-group">
-          <label for="username">Username</label>
+      {error && error}
+      <form name="form" onSubmit={login}>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
           <input
             id="username"
             name="username"
@@ -57,8 +60,8 @@ function LoginForm({ domain }) {
           />
         </div>
 
-        <div class="form-group">
-          <label for="password">Password</label>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
@@ -70,12 +73,12 @@ function LoginForm({ domain }) {
           />
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" className="btn btn-primary btn-block">
           Log In
         </button>
       </form>
 
-      <p class="form-footer">
+      <p className="form-footer">
         Don't have an account? <a href="/">Sign up</a>
       </p>
     </>

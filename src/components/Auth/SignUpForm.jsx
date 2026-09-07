@@ -52,7 +52,7 @@ function SignUpForm({ domain }) {
   return (
     <>
       {loading && <p>Loading...</p>}
-      {error && error.map((err) => <p>{err.msg}</p>)}
+      {error && error.map((err) => <p key={err.msg}>{err.msg}</p>)}
       {response && <p>{response}</p>}
       <form name="form" onSubmit={signUp}>
         <div className="form-group">
