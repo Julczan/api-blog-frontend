@@ -1,14 +1,20 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 
 function LoginForm({ domain }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const saveTokenToLocalStorage = (token) => {
+    localStorage.setItem("Authorization", `bearer ${token}`);
+  };
 
   const login = async (e) => {
     setLoading(true);
+    setError(null);
     e.preventDefault();
 
     const route = "/user/login";
@@ -30,21 +36,19 @@ function LoginForm({ domain }) {
         }
         return response.json();
       })
-      .then((response) => setResponse(response))
+      .then((response) => {
+        saveTokenToLocalStorage(response.token);
+        return navigate("/");
+      })
       .catch((error) => {
-        console.log(error);
-
         setError(error.msg);
-      });
+      })
+      .finally(() => setLoading(false));
   };
-
-  // if (response) {
-  //   saveTokenInLocalStorage;
-  //   throw redirect("/");
-  // }
 
   return (
     <>
+      {loading && <p>Loading...</p>}
       {error && error}
       <form name="form" onSubmit={login}>
         <div className="form-group">
@@ -56,6 +60,7 @@ function LoginForm({ domain }) {
             onChange={(e) => setUsername(e.target.value)}
             placeholder="coolcoder99"
             type="text"
+            autoComplete="no"
             required
           />
         </div>
@@ -69,6 +74,7 @@ function LoginForm({ domain }) {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
             type="password"
+            autoComplete="no"
             required
           />
         </div>
@@ -79,7 +85,7 @@ function LoginForm({ domain }) {
       </form>
 
       <p className="form-footer">
-        Don't have an account? <a href="/">Sign up</a>
+        Don't have an account? <Link to="/signup">Sign up</Link>
       </p>
     </>
   );

@@ -64,6 +64,7 @@ function SignUpForm({ domain }) {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="coolcoder99"
+            autoComplete="no"
             required
           />
         </div>
@@ -77,6 +78,7 @@ function SignUpForm({ domain }) {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
             type="email"
+            autoComplete="no"
             required
           />
         </div>
@@ -90,6 +92,7 @@ function SignUpForm({ domain }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
+            autoComplete="no"
             required
           />
         </div>
@@ -103,6 +106,7 @@ function SignUpForm({ domain }) {
             name="confirmPassword"
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="••••••••"
+            autoComplete="no"
             required
           />
         </div>
