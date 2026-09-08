@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
 import useData from "../../api/useData";
 import CommentList from "../CommentList/CommentList";
+import Navbar from "../Navbar/Navbar";
 
 function Post({ domain }) {
   const { postId } = useParams();
@@ -9,9 +10,9 @@ function Post({ domain }) {
 
   const { data, error, loading } = useData(domain + route);
 
-
   return (
     <>
+      <Navbar />
       {loading && "Loading..."}
       {error && <p>{error}</p>}
       {data && (

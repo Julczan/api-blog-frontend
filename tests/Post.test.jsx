@@ -42,21 +42,21 @@ describe("Post page", () => {
   });
 
   it("renders 'home' button", async () => {
-    // const router = createMemoryRouter(routes, {
-    //   initialEntries: ["/posts/2"],
-    // });
-    // render(<RouterProvider router={router} />);
-    // const button = await screen.findByRole("button", {name: "Home"});
-    // expect(button).toBeInTheDocument();
+    const router = createMemoryRouter(routes, {
+      initialEntries: ["/posts/2"],
+    });
+    render(<RouterProvider router={router} />);
+    const button = await screen.findByRole("link", { name: "Home" });
+    expect(button).toBeInTheDocument();
   });
 
   it("renders 'leave a comment' section", async () => {
-    // const router = createMemoryRouter(routes, {
-    //   initialEntries: ["/posts/2"],
-    // });
-    // render(<RouterProvider router={router} />);
-    // const comment = await screen.findByRole("textarea", {name: "Comment"})
-    // expect(comment).toBeInTheDocument();
+    const router = createMemoryRouter(routes, {
+      initialEntries: ["/posts/2"],
+    });
+    render(<RouterProvider router={router} />);
+    const comment = await screen.findByRole("form", { name: "Comment" });
+    expect(comment).toBeInTheDocument();
   });
 
   it("displays error when unauthenticated user tries to comment a post", async () => {
