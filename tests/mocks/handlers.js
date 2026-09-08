@@ -47,7 +47,10 @@ export const handlers = [
 
   http.get("/posts/:postId/comments/:commentId", ({ params }) => {
     if (params.postId !== "1") {
-      return HttpResponse.json({ message: "Post not found" }, { status: 404 });
+      return HttpResponse.json(
+        { message: "Comment not found" },
+        { status: 404 },
+      );
     }
     if (params.commentId !== "1") {
       return HttpResponse.json(
@@ -57,7 +60,11 @@ export const handlers = [
     }
     return HttpResponse.json({
       id: 1,
-      author: { username: "Julek" },
+      createdAt: "2026-08-28T20:06:28.730Z",
+      updatedAt: "2026-08-28T20:06:28.730Z",
+      author: {
+        username: "Julek",
+      },
       text: "comment",
     });
   }),
@@ -68,6 +75,7 @@ export const handlers = [
       { status: 400 },
     );
   }),
+
   http.post("/user/login", () => {
     return HttpResponse.json(
       { msg: "Invalid username or password" },

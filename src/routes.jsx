@@ -3,6 +3,7 @@ import SignUpForm from "./components/Auth/SignUpForm";
 import LoginForm from "./components/Auth/LoginForm";
 import ErrorPage from "./components/ErrorPage";
 import Post from "./components/Post/Post";
+import Comment from "./components/CommentList/Comment";
 
 const domain = "http://localhost:3000";
 
@@ -23,6 +24,10 @@ const routes = [
   {
     path: "/login",
     element: <LoginForm domain={domain} />,
+  },
+  {
+    path: "/posts/:postId/comments/:commentId",
+    element: <Comment domain={domain} />,
   },
 ];
 

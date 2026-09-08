@@ -6,17 +6,26 @@ import routes from "../src/routes";
 
 describe("Comment page", () => {
   it("renders a comment with username and timestamp", async () => {
-    // const router = createMemoryRouter(routes, {
-    //   initialEntries: ["/posts/1/comments/1"],
-    // });
-    // render(<RouterProvider router={router} />);
-    // const post = await screen.findByText("Its the first post");
-    // const firstComment = await screen.findByText("comment");
-    // const authorUsername = await screen.findByText("Julek");
-    // const secondAuthor = await screen.findByText("Test");
-    // expect(post).toBeInTheDocument();
-    // expect(firstComment).toBeInTheDocument();
-    // expect(authorUsername).toBeInTheDocument();
-    // expect(secondAuthor).toBeInTheDocument();
+    const router = createMemoryRouter(routes, {
+      initialEntries: ["/posts/1/comments/1"],
+    });
+
+    render(<RouterProvider router={router} />);
+    const comment = await screen.findByText("comment");
+    const authorUsername = await screen.findByText("Julek");
+
+    expect(comment).toBeInTheDocument();
+    expect(authorUsername).toBeInTheDocument();
+  });
+
+  it("renders 'comment not found' message when post or comment missing", async () => {
+    const router = createMemoryRouter(routes, {
+      initialEntries: ["/posts/1/comments/2"],
+    });
+
+    render(<RouterProvider router={router} />);
+    const error = await screen.findByText(/comment not found/i);
+
+    expect(error).toBeInTheDocument();
   });
 });
