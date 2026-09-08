@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import { createMemoryRouter, RouterProvider } from "react-router";
 import routes from "../src/routes";
+import userEvent from "@testing-library/user-event";
 
 describe("Post page", () => {
   it("renders a single post with comments", async () => {
@@ -55,21 +56,24 @@ describe("Post page", () => {
       initialEntries: ["/posts/2"],
     });
     render(<RouterProvider router={router} />);
-    const comment = await screen.findByRole("form", { name: "Comment" });
+    const comment = await screen.findByRole("form");
     expect(comment).toBeInTheDocument();
   });
 
   it("displays error when unauthenticated user tries to comment a post", async () => {
-    // const user = userEvent.setup()
-    //   const router = createMemoryRouter(routes, {
-    //     initialEntries: ["/posts/2"],
-    //   });
-    //   render(<RouterProvider router={router} />);
-    // const commentInput = screen.getByLabelText("Comment");
-    //   fireEvent.change(commentInput, { target: { value: "test" } });
-    //   const submitBtn = await screen.findByRole("button", {name: "Submit"})
-    //   await user.click(button);
-    //   const error = await screen.findByText(/Please sign up or login to leave a comment/i);
-    //   expect(error).toBeInTheDocument();
+    const user = userEvent.setup();
+    const router = createMemoryRouter(routes, {
+      initialEntries: ["/posts/2"],
+    });
+    render(<RouterProvider router={router} />);
+
+    const commentInput = await screen.findByLabelText("Comment");
+
+    fireEvent.change(commentInput, { target: { value: "test" } });
+    const submitBtn = await screen.findByRole("button", { name: "Comment" });
+    await user.click(submitBtn);
+
+    const error = await screen.findByText(/AuthenticationError: Unauthorized/i);
+    expect(error).toBeInTheDocument();
   });
 });

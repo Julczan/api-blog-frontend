@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import useData from "../../api/useData";
 import CommentList from "../CommentList/CommentList";
 import Navbar from "../Navbar/Navbar";
+import CommentForm from "../CommentList/CommentForm";
 
 function Post({ domain }) {
   const { postId } = useParams();
@@ -24,6 +25,7 @@ function Post({ domain }) {
             <div className="post-updated">{data.updatedAt}</div>
           </div>
           <CommentList domain={domain} postId={postId} />
+          <CommentForm domain={domain} postId={postId} />
         </>
       )}
     </>

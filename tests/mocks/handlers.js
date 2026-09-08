@@ -79,7 +79,7 @@ export const handlers = [
   http.post("/user/login", () => {
     return HttpResponse.json(
       { msg: "Invalid username or password" },
-      { status: 400 },
+      { status: 401 },
     );
   }),
 ];
