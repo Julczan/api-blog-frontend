@@ -4,13 +4,26 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import routes from "../src/routes";
 import userEvent from "@testing-library/user-event";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 
 describe("Post page", () => {
   it("renders a single post with comments", async () => {
     const router = createMemoryRouter(routes, {
       initialEntries: ["/posts/1"],
     });
-    render(<RouterProvider router={router} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
     const post = await screen.findByText("Its the first post");
     const firstComment = await screen.findByText("comment");
     const authorUsername = await screen.findByText("Julek");
@@ -25,7 +38,11 @@ describe("Post page", () => {
     const router = createMemoryRouter(routes, {
       initialEntries: ["/posts/3"],
     });
-    render(<RouterProvider router={router} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
     const error = await screen.findByText(/Post not found/i);
     expect(error).toBeInTheDocument();
   });
@@ -34,7 +51,11 @@ describe("Post page", () => {
     const router = createMemoryRouter(routes, {
       initialEntries: ["/posts/2"],
     });
-    render(<RouterProvider router={router} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
 
     const post = await screen.findByText("Its the first post");
     const error = await screen.findByText(/No comments yet/i);
@@ -46,7 +67,11 @@ describe("Post page", () => {
     const router = createMemoryRouter(routes, {
       initialEntries: ["/posts/2"],
     });
-    render(<RouterProvider router={router} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
     const button = await screen.findByRole("link", { name: "Home" });
     expect(button).toBeInTheDocument();
   });
@@ -55,7 +80,11 @@ describe("Post page", () => {
     const router = createMemoryRouter(routes, {
       initialEntries: ["/posts/2"],
     });
-    render(<RouterProvider router={router} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
     const comment = await screen.findByRole("form");
     expect(comment).toBeInTheDocument();
   });
@@ -65,7 +94,11 @@ describe("Post page", () => {
     const router = createMemoryRouter(routes, {
       initialEntries: ["/posts/2"],
     });
-    render(<RouterProvider router={router} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
 
     const commentInput = await screen.findByLabelText("Comment");
 

@@ -1,21 +1,22 @@
 import { useParams } from "react-router";
-import useData from "../../api/useData";
 import CommentList from "../CommentList/CommentList";
 import Navbar from "../Navbar/Navbar";
-import CommentForm from "../CommentList/CommentForm";
+import { useQuery } from "@tanstack/react-query";
+import { getPost } from "../../api/posts";
 
 function Post({ domain }) {
   const { postId } = useParams();
 
-  const route = `/posts/${postId}`;
-
-  const { data, error, loading } = useData(domain + route);
+  const { data, status, error } = useQuery({
+    queryKey: ["post", domain, postId],
+    queryFn: () => getPost(domain, postId),
+  });
 
   return (
     <>
       <Navbar />
-      {loading && "Loading..."}
-      {error && <p>{error}</p>}
+      {status === "pending" && "Loading..."}
+      {error && <p>{error.message}</p>}
       {data && (
         <>
           <div className="post" key={data.id}>
@@ -25,7 +26,6 @@ function Post({ domain }) {
             <div className="post-updated">{data.updatedAt}</div>
           </div>
           <CommentList domain={domain} postId={postId} />
-          <CommentForm domain={domain} postId={postId} />
         </>
       )}
     </>

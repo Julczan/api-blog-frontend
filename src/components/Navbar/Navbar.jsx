@@ -2,11 +2,11 @@ import { Link } from "react-router";
 
 function Navbar() {
   return (
-    <navigation>
+    <nav>
       <Link to={"/"}>Home</Link>
-      <Link to={"signup"}>Sign up</Link>
-      <Link to={"login"}>Login</Link>
-    </navigation>
+      <Link to={"/signup"}>Sign up</Link>
+      <Link to={"/login"}>Login</Link>
+    </nav>
   );
 }
 

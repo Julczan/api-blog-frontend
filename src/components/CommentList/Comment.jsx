@@ -1,18 +1,21 @@
 import { useParams } from "react-router";
-import useData from "../../api/useData";
 import Navbar from "../Navbar/Navbar";
+import { useQuery } from "@tanstack/react-query";
+import { getComment } from "../../api/comments";
 
 function Comment({ domain }) {
   const { postId, commentId } = useParams();
 
-  const route = `/posts/${postId}/comments/${commentId}`;
+  const { data, status, error } = useQuery({
+    queryKey: ["comment", domain, postId, commentId],
+    queryFn: () => getComment(domain, postId, commentId),
+  });
 
-  const { data, error, loading } = useData(domain + route);
   return (
     <>
       <Navbar />
-      {loading && "Loading..."}
-      {error && <p>{error}</p>}
+      {status === "pending" && "Loading..."}
+      {error && <p>{error.message}</p>}
       {data && (
         <>
           <div className="comment" key={data.id}>

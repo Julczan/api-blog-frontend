@@ -1,64 +1,41 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { addComment } from "../../api/addComment";
 
-function CommentForm({ domain }) {
+function CommentForm({ domain, postId }) {
   const [text, setText] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
-  const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationKey: ["comments", domain, postId],
+    mutationFn: (domain, postId, text) => addComment(domain, postId, text),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["comments"] });
+    },
+  });
 
-  const { postId } = useParams();
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
 
-  const comment = async (e) => {
-    setLoading(true);
-    setError(null);
+  const onSubmit = (e) => {
     e.preventDefault();
-
-    const route = `/posts/${postId}/comments`;
-
-    fetch(domain + route, {
-      method: "POST",
-      body: JSON.stringify({
-        text,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then(async (response) => {
-        if (response.status >= 400) {
-          const errorData = await response.json();
-          return Promise.reject(errorData.error);
-        }
-        return response.json();
-      })
-      .then(() => {
-        return navigate(`/posts/${postId}`);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => setLoading(false));
+    mutation.mutate({ domain, postId, text });
+    setText("");
   };
 
   return (
     <>
-      {loading && <p>Loading...</p>}
-      {error && (
-        <p>
-          {error}. Please sign up to leave a comment:{" "}
-          <Link to={"/signup"}>Sign Up</Link>
-        </p>
-      )}
-      <form name="commentForm" onSubmit={comment}>
+      {mutation.isPending && "Adding comment..."}
+      {mutation.error && <p>{mutation.error}</p>}
+      <form name="commentForm" onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="comment">Comment</label>
           <input
             id="comment"
             name="comment"
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={handleChange}
             placeholder="coolcoder99"
             type="textarea"
             autoComplete="no"

@@ -1,18 +1,26 @@
-import useData from "../../api/useData";
+import CommentForm from "./CommentForm";
+import { getComments } from "../../api/getComments";
+import { useQuery } from "@tanstack/react-query";
 
 function CommentList({ domain, postId }) {
-  const route = `/posts/${postId}/comments`;
-
-  const { data, error, loading } = useData(domain + route);
+  const { data, status, error } = useQuery({
+    queryKey: ["comments", domain, postId],
+    queryFn: () => getComments(domain, postId),
+  });
 
   if (data && data.length === 0) {
-    return <p>There is no comments yet</p>;
+    return (
+      <>
+        <p>There is no comments yet</p>
+        <CommentForm domain={domain} postId={postId} />
+      </>
+    );
   }
 
   return (
     <>
-      {loading && "Loading..."}
-      {error && <p>{error}</p>}
+      {status === "pending" && "Loading..."}
+      {error && <p>{error.message}</p>}
 
       <div className="commentList">
         {data &&
@@ -25,6 +33,7 @@ function CommentList({ domain, postId }) {
             </div>
           ))}
       </div>
+      <CommentForm domain={domain} postId={postId} />
     </>
   );
 }

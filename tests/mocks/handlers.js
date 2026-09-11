@@ -82,4 +82,11 @@ export const handlers = [
       { status: 401 },
     );
   }),
+
+  http.post("/posts/:postId/comments", () => {
+    return HttpResponse.json(
+      { error: "AuthenticationError: Unauthorized" },
+      { status: 401 },
+    );
+  }),
 ];

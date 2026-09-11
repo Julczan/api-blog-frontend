@@ -1,23 +1,22 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import routes from "../src/routes";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-window.fetch = vi.fn(() => {
-  const postsData = [];
-
-  return Promise.resolve({
-    json: () => Promise.resolve(postsData),
-  });
-});
+const queryClient = new QueryClient();
 
 describe("Login", () => {
   it("renders signup form", () => {
     const router = createMemoryRouter(routes, {
       initialEntries: ["/login"],
     });
-    render(<RouterProvider router={router} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
     const form = screen.getByRole("form");
     expect(form).toBeInTheDocument();
   });
@@ -27,7 +26,11 @@ describe("Login", () => {
     const router = createMemoryRouter(routes, {
       initialEntries: ["/login"],
     });
-    render(<RouterProvider router={router} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
 
     const usernameInput = screen.getByLabelText("Username");
     const passwordInput = screen.getByLabelText("Password");

@@ -1,56 +1,37 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { login } from "../../api/login";
+import { useMutation } from "@tanstack/react-query";
 
 function LoginForm({ domain }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationKey: ["login", domain],
+    mutationFn: (domain, formdata) => login(domain, formdata),
+    onSuccess: (data) => {
+      saveTokenToLocalStorage(data.token);
+      navigate("/");
+    },
+  });
 
   const saveTokenToLocalStorage = (token) => {
     localStorage.setItem("Authorization", `bearer ${token}`);
   };
 
-  const login = async (e) => {
-    setLoading(true);
-    setError(null);
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    const route = "/user/login";
-
-    fetch(domain + route, {
-      method: "POST",
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then(async (response) => {
-        if (response.status >= 400) {
-          const errorData = await response.json();
-          return Promise.reject(errorData);
-        }
-        return response.json();
-      })
-      .then((response) => {
-        saveTokenToLocalStorage(response.token);
-        return navigate("/");
-      })
-      .catch((error) => {
-        setError(error.msg);
-      })
-      .finally(() => setLoading(false));
+    const formdata = { username, password };
+    mutation.mutate({ domain, formdata });
   };
 
   return (
     <>
-      {loading && <p>Loading...</p>}
-      {error && error}
-      <form name="form" onSubmit={login}>
+      {mutation.isPending && <p>Loading...</p>}
+      {mutation.error && mutation.error.msg}
+      <form name="form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input

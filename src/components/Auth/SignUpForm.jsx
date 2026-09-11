@@ -1,5 +1,7 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router";
+import { signUp } from "../../api/signUp";
 
 function SignUpForm({ domain }) {
   const [username, setUsername] = useState("");
@@ -7,54 +9,23 @@ function SignUpForm({ domain }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [response, setResponse] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const mutation = useMutation({
+    mutationKey: ["signup", domain],
+    mutationFn: (domain, formdata) => signUp(domain, formdata),
+  });
 
-  const signUp = async (e) => {
-    setLoading(true);
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError(null);
-    setResponse(null);
-
-    const route = "/user/signup";
-
-    fetch(domain + route, {
-      method: "POST",
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-        confirmPassword,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then(async (response) => {
-        if (response.status >= 400) {
-          const errorData = await response.json();
-          return Promise.reject(errorData);
-        }
-        return response.json();
-      })
-      .then((response) => setResponse(response))
-      .catch((errorData) => {
-        if (Array.isArray(errorData)) {
-          setError(errorData);
-        } else {
-          setError([{ msg: "A network error occurred." }]);
-        }
-      })
-      .finally(() => setLoading(false));
+    const formdata = { username, email, password, confirmPassword };
+    mutation.mutate({ domain, formdata });
   };
 
   return (
     <>
-      {loading && <p>Loading...</p>}
-      {error && error.map((err) => <p key={err.msg}>{err.msg}</p>)}
-      {response && <p>{response}</p>}
-      <form name="form" onSubmit={signUp}>
+      {mutation.isPending && <p>Loading...</p>}
+      {mutation.error &&
+        mutation.error.map((err) => <p key={err.msg}>{err.msg}</p>)}
+      <form name="form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input

@@ -1,14 +1,16 @@
-import useData from "../../api/useData";
+import { useQuery } from "@tanstack/react-query";
 import "./PostList.css";
+import { getPosts } from "../../api/posts";
 
 function PostList({ domain }) {
-  const route = "/posts";
-
-  const { data, error, loading } = useData(domain + route);
+  const { data, status, error } = useQuery({
+    queryKey: ["posts", domain],
+    queryFn: () => getPosts(domain),
+  });
 
   return (
     <>
-      {loading && "Loading..."}
+      {status === "pending" && "Loading..."}
       {error && <p>{error}</p>}
       <div className="postlist">
         {data &&
