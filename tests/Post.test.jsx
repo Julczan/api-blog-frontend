@@ -109,4 +109,40 @@ describe("Post page", () => {
     const error = await screen.findByText(/AuthenticationError: Unauthorized/i);
     expect(error).toBeInTheDocument();
   });
+
+  it("renders delete and edit buttons when user is comment author", async () => {
+    localStorage.setItem("User", "Julek");
+    const router = createMemoryRouter(routes, {
+      initialEntries: ["/posts/1"],
+    });
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
+
+    const editBtn = await screen.findByRole("button", { name: "Edit" });
+    const deleteBtn = await screen.findByRole("button", { name: "Delete" });
+
+    expect(editBtn).toBeInTheDocument();
+    expect(deleteBtn).toBeInTheDocument();
+  });
+
+  it("does not render delete and edit buttons when user is not comment author", async () => {
+    localStorage.setItem("User", "Someone");
+    const router = createMemoryRouter(routes, {
+      initialEntries: ["/posts/1"],
+    });
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
+
+    const editBtn = screen.queryByRole("button", { name: "Edit" });
+    const deleteBtn = screen.queryByRole("button", { name: "Delete" });
+
+    expect(editBtn).not.toBeInTheDocument();
+    expect(deleteBtn).not.toBeInTheDocument();
+  });
 });

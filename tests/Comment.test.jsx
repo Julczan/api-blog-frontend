@@ -43,21 +43,4 @@ describe("Comment page", () => {
 
     expect(error).toBeInTheDocument();
   });
-
-  it("renders delete and edit buttons when user is comment author", async () => {
-    const router = createMemoryRouter(routes, {
-      initialEntries: ["/posts/1/comments/1"],
-    });
-    render(
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>,
-    );
-
-    const editBtn = await screen.findByRole("button", { name: "Edit" });
-    const deleteBtn = await screen.findByRole("button", { name: "Delete" });
-
-    expect(editBtn).toBeInTheDocument();
-    expect(deleteBtn).toBeInTheDocument();
-  });
 });

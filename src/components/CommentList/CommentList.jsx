@@ -8,6 +8,8 @@ function CommentList({ domain, postId }) {
     queryFn: () => getComments(domain, postId),
   });
 
+  const user = localStorage.getItem("User");
+
   if (data && data.length === 0) {
     return (
       <>
@@ -30,6 +32,12 @@ function CommentList({ domain, postId }) {
               <div className="comment-text">{comment.text}</div>
               <div className="comment-created">{comment.createdAt}</div>
               <div className="comment-updated">{comment.updatedAt}</div>
+              {user === comment.author.username && (
+                <>
+                  <button>Edit</button>
+                  <button>Delete</button>
+                </>
+              )}
             </div>
           ))}
       </div>
