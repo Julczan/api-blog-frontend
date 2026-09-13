@@ -11,6 +11,8 @@ function Comment({ domain }) {
     queryFn: () => getComment(domain, postId, commentId),
   });
 
+  const user = localStorage.getItem("Authorization");
+
   return (
     <>
       <Navbar />
@@ -25,6 +27,9 @@ function Comment({ domain }) {
             <div className="comment-created">{data.createdAt}</div>
             <div className="comment-updated">{data.updatedAt}</div>
           </div>
+          {user}
+          <button>Edit</button>
+          <button>Delete</button>
         </>
       )}
     </>

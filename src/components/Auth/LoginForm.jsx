@@ -12,13 +12,14 @@ function LoginForm({ domain }) {
     mutationKey: ["login", domain],
     mutationFn: (domain, formdata) => login(domain, formdata),
     onSuccess: (data) => {
-      saveTokenToLocalStorage(data.token);
+      saveTokenToLocalStorage(data.token, data.user.username);
       navigate("/");
     },
   });
 
-  const saveTokenToLocalStorage = (token) => {
+  const saveTokenToLocalStorage = (token, username) => {
     localStorage.setItem("Authorization", `bearer ${token}`);
+    localStorage.setItem("User", username);
   };
 
   const handleSubmit = (e) => {
