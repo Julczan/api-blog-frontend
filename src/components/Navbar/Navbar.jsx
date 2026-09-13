@@ -1,13 +1,21 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { signOut } from "../../api/signOut";
 
 function Navbar() {
-  const token = localStorage.getItem("Authorization");
+  const navigate = useNavigate();
 
-  if (token) {
+  const localStorageToken = localStorage.getItem("Authorization");
+
+  const handleSignOut = () => {
+    signOut();
+    navigate("/");
+  };
+
+  if (localStorageToken) {
     return (
       <nav>
         <Link to={"/"}>Home</Link>
-        <Link to={"/signout"}>Sign Out</Link>
+        <button onClick={handleSignOut}>Sign Out</button>
       </nav>
     );
   }
