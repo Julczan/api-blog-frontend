@@ -3,6 +3,7 @@ import { getComments } from "../../api/getComments";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import EditCommentForm from "./EditCommentForm";
+import DeleteCommentForm from "./DeleteCommentForm";
 
 function CommentList({ domain, postId }) {
   const [editing, setEditing] = useState("");
@@ -27,7 +28,7 @@ function CommentList({ domain, postId }) {
     <>
       {status === "pending" && "Loading..."}
       {error && <p>{error.message}</p>}
-
+      <CommentForm domain={domain} postId={postId} />
       <div className="commentList">
         {data &&
           data.map((comment) =>
@@ -40,6 +41,7 @@ function CommentList({ domain, postId }) {
                   text={comment.text}
                   setEditing={setEditing}
                 />
+
                 <button onClick={() => setEditing("")}>Cancel</button>
               </div>
             ) : (
@@ -51,14 +53,17 @@ function CommentList({ domain, postId }) {
                 {user === comment.author.username && (
                   <div className="comment-btns">
                     <button onClick={() => setEditing(comment.id)}>Edit</button>
-                    <button>Delete</button>
+                    <DeleteCommentForm
+                      domain={domain}
+                      postId={postId}
+                      commentId={comment.id}
+                    />
                   </div>
                 )}
               </div>
             ),
           )}
       </div>
-      <CommentForm domain={domain} postId={postId} />
     </>
   );
 }

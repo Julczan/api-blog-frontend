@@ -27,3 +27,20 @@ export const editComment = async ({ domain, postId, commentId, newText }) => {
   }
   return response.json();
 };
+
+export const deleteComment = async ({ domain, postId, commentId }) => {
+  const response = await fetch(
+    `${domain}/posts/${postId}/comments/${commentId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: localStorage.getItem("Authorization"),
+      },
+    },
+  );
+  if (response.status >= 400) {
+    const errorData = await response.json();
+    return Promise.reject(errorData.error);
+  }
+  return response.json();
+};
