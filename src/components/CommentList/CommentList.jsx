@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import EditCommentForm from "./EditCommentForm";
 import DeleteCommentForm from "./DeleteCommentForm";
+import { useNavigate } from "react-router";
 
 function CommentList({ domain, postId }) {
   const [editing, setEditing] = useState("");
@@ -14,6 +15,12 @@ function CommentList({ domain, postId }) {
   });
 
   const user = localStorage.getItem("User");
+
+  const navigate = useNavigate();
+
+  const handleClick = (postId, commentId) => {
+    navigate(`/posts/${postId}/comments/${commentId}`);
+  };
 
   if (data && data.length === 0) {
     return (
@@ -45,7 +52,11 @@ function CommentList({ domain, postId }) {
                 <button onClick={() => setEditing("")}>Cancel</button>
               </div>
             ) : (
-              <div className="comment" key={comment.id}>
+              <div
+                className="comment"
+                key={comment.id}
+                onClick={() => handleClick(postId, comment.id)}
+              >
                 <div className="comment-author">{comment.author.username}</div>
                 <div className="comment-text">{comment.text}</div>
                 <div className="comment-created">{comment.createdAt}</div>
