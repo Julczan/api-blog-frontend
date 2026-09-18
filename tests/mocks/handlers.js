@@ -10,6 +10,9 @@ export const handlers = [
         createdAt: "2026-08-27T19:13:28.303Z",
         updatedAt: "2026-08-27T19:13:28.303Z",
         authorId: 1,
+        author: {
+          username: "Julczan",
+        },
       },
       {
         id: 2,
@@ -18,6 +21,9 @@ export const handlers = [
         createdAt: "2026-08-27T19:13:28.303Z",
         updatedAt: "2026-08-27T19:13:28.303Z",
         authorId: 2,
+        author: {
+          username: "Test",
+        },
       },
     ]);
   }),
@@ -33,6 +39,9 @@ export const handlers = [
       createdAt: "2026-08-27T19:13:28.303Z",
       updatedAt: "2026-08-27T19:13:28.303Z",
       authorId: 1,
+      author: {
+        username: "Julczan",
+      },
     });
   }),
   http.get("/posts/:postId/comments", ({ params }) => {

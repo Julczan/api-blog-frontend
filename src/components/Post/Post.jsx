@@ -20,6 +20,7 @@ function Post({ domain }) {
       {data && (
         <>
           <div className="post" key={data.id}>
+            <div className="post-title">{data.author.username}</div>
             <div className="post-title">{data.title}</div>
             <div className="post-text">{data.text}</div>
             <div className="post-created">{data.createdAt}</div>
