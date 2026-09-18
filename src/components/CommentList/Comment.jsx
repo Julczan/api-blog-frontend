@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import Navbar from "../Navbar/Navbar";
 import { useQuery } from "@tanstack/react-query";
 import { getComment } from "../../api/comments";
+import "./Comment.css";
 
 function Comment({ domain }) {
   const { postId, commentId } = useParams();
@@ -15,7 +16,7 @@ function Comment({ domain }) {
     <>
       <Navbar />
       {status === "pending" && "Loading..."}
-      {error && <p>{error.message}</p>}
+      {error && <p>{error}</p>}
       {data && (
         <>
           <div className="comment" key={data.id}>

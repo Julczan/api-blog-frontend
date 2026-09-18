@@ -30,7 +30,7 @@ export const handlers = [
 
   http.get("/posts/:postId", ({ params }) => {
     if (params.postId === "3") {
-      return HttpResponse.json({ message: "Post not found" }, { status: 404 });
+      return HttpResponse.json({ error: "Post not found" }, { status: 404 });
     }
     return HttpResponse.json({
       id: 1,
@@ -56,16 +56,10 @@ export const handlers = [
 
   http.get("/posts/:postId/comments/:commentId", ({ params }) => {
     if (params.postId !== "1") {
-      return HttpResponse.json(
-        { message: "Comment not found" },
-        { status: 404 },
-      );
+      return HttpResponse.json({ error: "Comment not found" }, { status: 404 });
     }
     if (params.commentId !== "1") {
-      return HttpResponse.json(
-        { message: "Comment not found" },
-        { status: 404 },
-      );
+      return HttpResponse.json({ error: "Comment not found" }, { status: 404 });
     }
     return HttpResponse.json({
       id: 1,

@@ -52,15 +52,18 @@ function CommentList({ domain, postId }) {
                 <button onClick={() => setEditing("")}>Cancel</button>
               </div>
             ) : (
-              <div
-                className="comment"
-                key={comment.id}
-                onClick={() => handleClick(postId, comment.id)}
-              >
-                <div className="comment-author">{comment.author.username}</div>
-                <div className="comment-text">{comment.text}</div>
-                <div className="comment-created">{comment.createdAt}</div>
-                <div className="comment-updated">{comment.updatedAt}</div>
+              <div className="comment" key={comment.id}>
+                <div
+                  className="comment-body"
+                  onClick={() => handleClick(postId, comment.id)}
+                >
+                  <div className="comment-author">
+                    {comment.author.username}
+                  </div>
+                  <div className="comment-text">{comment.text}</div>
+                  <div className="comment-created">{comment.createdAt}</div>
+                  <div className="comment-updated">{comment.updatedAt}</div>
+                </div>
                 {user === comment.author.username && (
                   <div className="comment-btns">
                     <button onClick={() => setEditing(comment.id)}>Edit</button>

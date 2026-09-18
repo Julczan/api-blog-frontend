@@ -4,7 +4,7 @@ export const getComment = async (domain, postId, commentId) => {
   );
   if (response.status >= 400) {
     const errorData = await response.json();
-    return Promise.reject(errorData);
+    return Promise.reject(errorData.error);
   }
   return response.json();
 };
