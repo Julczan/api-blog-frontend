@@ -16,8 +16,8 @@ describe("App", () => {
       </QueryClientProvider>,
     );
 
-    const firstPost = await screen.findByText("Its the first post");
-    const secondPost = await screen.findByText("Its the second post");
+    const firstPost = await screen.findByText("first post");
+    const secondPost = await screen.findByText("second post");
 
     expect(firstPost).toBeInTheDocument();
     expect(secondPost).toBeInTheDocument();

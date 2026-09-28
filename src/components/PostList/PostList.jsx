@@ -32,7 +32,6 @@ function PostList({ domain }) {
           >
             <div className="post-title">{post.author.username}</div>
             <div className="post-title">{post.title}</div>
-            <div className="post-text">{post.text}</div>
             <div className="post-created">{post.createdAt}</div>
             <div className="post-updated">{post.updatedAt}</div>
           </div>
