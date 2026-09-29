@@ -100,10 +100,12 @@ describe("Post page", () => {
       </QueryClientProvider>,
     );
 
-    const commentInput = await screen.findByLabelText("Comment");
+    const commentInput = await screen.findByLabelText("Leave a comment");
 
     fireEvent.change(commentInput, { target: { value: "test" } });
-    const submitBtn = await screen.findByRole("button", { name: "Comment" });
+    const submitBtn = await screen.findByRole("button", {
+      name: "Post Comment",
+    });
     await user.click(submitBtn);
 
     const error = await screen.findByText(/AuthenticationError: Unauthorized/i);

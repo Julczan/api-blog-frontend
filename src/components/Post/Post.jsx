@@ -4,6 +4,7 @@ import Navbar from "../Navbar/Navbar";
 import { useQuery } from "@tanstack/react-query";
 import { getPost } from "../../api/posts";
 import parse from "html-react-parser";
+import styles from "./Post.module.css";
 
 function Post({ domain }) {
   const { postId } = useParams();
@@ -16,20 +17,42 @@ function Post({ domain }) {
   return (
     <>
       <Navbar />
-      {status === "pending" && "Loading..."}
-      {error && <p>{error}</p>}
-      {data && (
-        <>
-          <div className="post" key={data.id}>
-            <div className="post-title">{data.author.username}</div>
-            <div className="post-title">{data.title}</div>
-            <div className="post-text">{parse(data.text)}</div>
-            <div className="post-created">{data.createdAt}</div>
-            <div className="post-updated">{data.updatedAt}</div>
-          </div>
-          <CommentList domain={domain} postId={postId} />
-        </>
-      )}
+
+      <main className={styles.container}>
+        {status === "pending" && (
+          <div className={styles.loadingMsg}>Loading post...</div>
+        )}
+
+        {error && <div className={styles.errorMsg}>{error}</div>}
+
+        {data && (
+          <>
+            <article className={styles.post}>
+              <header className={styles.header}>
+                <h1 className={styles.title}>{data.title}</h1>
+                <div className={styles.meta}>
+                  <span className={styles.author}>
+                    By {data.author.username}
+                  </span>
+                  <span className={styles.date}>
+                    Published: {data.createdAt}
+                  </span>
+                </div>
+              </header>
+
+              <div className={styles.content}>{parse(data.text)}</div>
+
+              <div className={styles.updated}>
+                Last updated: {data.updatedAt}
+              </div>
+            </article>
+
+            <div className={styles.commentsSection}>
+              <CommentList domain={domain} postId={postId} />
+            </div>
+          </>
+        )}
+      </main>
     </>
   );
 }

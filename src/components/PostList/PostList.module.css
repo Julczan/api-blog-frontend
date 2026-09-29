@@ -1,0 +1,117 @@
+/* Centers the list and gives it a flexible width */
+.container {
+  max-width: 680px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* The interactive post card */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #3f3f46;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap; /* Allows date to drop to next line if username is very long */
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.author {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent-light);
+  /* Breaks exceptionally long usernames so they don't break the layout */
+  overflow-wrap: anywhere;
+}
+
+.date {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  white-space: nowrap; /* Keeps the date format on a single line */
+}
+
+.title {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  /* Crucial for 320px screens: breaks long unbreakable words (like URLs) */
+  overflow-wrap: break-word;
+}
+
+.updated {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Status Messages */
+.emptyMsg {
+  text-align: center;
+  margin-top: 4rem;
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+}
+
+.loadingMsg {
+  padding: 1rem;
+  color: var(--accent-light);
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.errorMsg {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
+  border-radius: 8px;
+  color: var(--error-text);
+  text-align: center;
+}
+
+/* --- Mobile Responsiveness (For screens 480px and below) --- */
+@media (max-width: 480px) {
+  .container {
+    margin: 1rem auto;
+  }
+
+  .card {
+    /* Reclaim horizontal space on tiny screens */
+    padding: 1rem;
+  }
+
+  .title {
+    /* Slightly smaller font to fit more words per line */
+    font-size: 1.125rem;
+  }
+}

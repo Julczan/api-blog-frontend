@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import "./PostList.css";
+import styles from "./PostList.module.css";
 import { getPosts } from "../../api/posts";
 import { useNavigate } from "react-router";
 
@@ -11,31 +11,43 @@ function PostList({ domain }) {
 
   const navigate = useNavigate();
 
-  const handleCLick = (postId) => {
+  const handleClick = (postId) => {
     navigate(`/posts/${postId}`);
   };
 
   if (data && data.length === 0) {
-    return <p>No posts yet.</p>;
+    return <div className={styles.emptyMsg}>No posts yet.</div>;
   }
 
   return (
-    <div className="postList">
-      {status === "pending" && "Loading..."}
-      {error && <p>{error}</p>}
-      {data &&
-        data.map((post) => (
-          <div
-            className="post"
-            key={post.id}
-            onClick={() => handleCLick(post.id)}
-          >
-            <div className="post-title">{post.author.username}</div>
-            <div className="post-title">{post.title}</div>
-            <div className="post-created">{post.createdAt}</div>
-            <div className="post-updated">{post.updatedAt}</div>
-          </div>
-        ))}
+    <div className={styles.container}>
+      {status === "pending" && (
+        <div className={styles.loadingMsg}>Loading posts...</div>
+      )}
+
+      {error && <div className={styles.errorMsg}>{error}</div>}
+
+      <div className={styles.list}>
+        {data &&
+          data.map((post) => (
+            <div
+              className={styles.card}
+              key={post.id}
+              onClick={() => handleClick(post.id)}
+            >
+              <div className={styles.cardHeader}>
+                <span className={styles.author}>{post.author.username}</span>
+                <span className={styles.date}>{post.createdAt}</span>
+              </div>
+
+              <h3 className={styles.title}>{post.title}</h3>
+
+              <div className={styles.updated}>
+                Last updated: {post.updatedAt}
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   );
 }

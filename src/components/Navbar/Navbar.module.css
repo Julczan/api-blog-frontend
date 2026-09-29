@@ -1,0 +1,90 @@
+/* Sticks the navbar to the top and gives it a subtle border */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--bg-main);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100; /* Ensures it stays above your posts list */
+}
+
+/* Styles the "Home" link to look like a brand/logo */
+.homeLink {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.homeLink:hover {
+  color: var(--accent-light);
+  text-decoration: none;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Standard navigation link (Login) */
+.link {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+.link:hover {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+/* Primary call to action (Sign Up) */
+.primaryLink {
+  background-color: var(--accent-color);
+  color: #ffffff;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.primaryLink:hover {
+  background-color: var(--accent-hover);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.primaryLink:active {
+  transform: scale(0.98);
+}
+
+/* Subtle outline button for signing out */
+.signOutBtn {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.signOutBtn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border-color: #52525b;
+}
+
+.signOutBtn:active {
+  transform: scale(0.98);
+}
