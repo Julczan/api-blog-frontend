@@ -124,7 +124,9 @@ describe("Post page", () => {
     );
 
     const editBtn = await screen.findByRole("button", { name: "Edit" });
-    const deleteBtn = await screen.findByRole("button", { name: "Delete" });
+    const deleteBtn = await screen.findByRole("button", {
+      name: "Delete comment",
+    });
 
     expect(editBtn).toBeInTheDocument();
     expect(deleteBtn).toBeInTheDocument();
