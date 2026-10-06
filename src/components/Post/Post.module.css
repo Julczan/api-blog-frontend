@@ -1,6 +1,6 @@
 /* Gives the reader a nice, centered column for reading */
 .container {
-  max-width: 760px;
+  max-width: 1500px;
   width: 100%;
   margin: 0 auto;
   padding: 2rem 1rem;

@@ -5,7 +5,11 @@ import ErrorPage from "./components/ErrorPage";
 import Post from "./components/Post/Post";
 import Comment from "./components/CommentList/Comment";
 
-const domain = "https://api-blog-backend-production.up.railway.app";
+let domain = "https://api-blog-backend-production.up.railway.app";
+
+if (import.meta.env.MODE === "development") {
+  domain = "http://localhost:3000";
+}
 
 const routes = [
   {
