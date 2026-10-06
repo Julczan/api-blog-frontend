@@ -5,7 +5,7 @@ import ErrorPage from "./components/ErrorPage";
 import Post from "./components/Post/Post";
 import Comment from "./components/CommentList/Comment";
 
-const domain = import.meta.env.DOMAIN;
+const domain = "https://api-blog-backend-production.up.railway.app";
 
 const routes = [
   {
